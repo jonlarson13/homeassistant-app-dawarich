@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.8-2
+
+- Show the Dawarich sidebar panel for non-admin Home Assistant users (`panel_admin: false`). Dawarich's own login still applies, so non-admin HA users will need their own Dawarich credentials.
+
 ## 1.7.8-1
 
 - Upgrade base image to Dawarich 1.7.8 — see upstream [1.7.8](https://github.com/Freika/dawarich/releases/tag/1.7.8) release notes
