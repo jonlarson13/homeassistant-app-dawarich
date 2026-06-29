@@ -4,7 +4,7 @@
 
 [![HA App][ha-app-badge]][ha-app-link]
 
-[![Add App Repository to My Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/thomdev-j/homeassistant-app-dawarich)
+[![Add App Repository to My Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/ILikeFood971/homeassistant-app-dawarich)
 
 ![Dawarich running inside Home Assistant](images/screenshot.jpg)
 
@@ -24,12 +24,12 @@
 
 ### 1. Install
 
-[![Add App Repository to My Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/thomdev-j/homeassistant-addon-dawarich)
+[![Add App Repository to My Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/ILikeFood971/homeassistant-app-dawarich)
 
 Or manually add this repository URL to your Home Assistant app store:
 
 ```
-https://github.com/thomdev-j/homeassistant-app-dawarich
+https://github.com/ILikeFood971/homeassistant-app-dawarich
 ```
 
 **Settings** → **Apps** → **+ Install App** → **Repositories** → paste the URL → **Add**
@@ -229,7 +229,7 @@ This app builds on top of the [Dawarich](https://github.com/Freika/dawarich) Doc
 
 - [Dawarich](https://github.com/Freika/dawarich) — upstream project
 - [Dawarich Documentation](https://dawarich.app/) — full feature documentation
-- [Report an issue](https://github.com/thomdev-j/homeassistant-app-dawarich/issues)
+- [Report an issue](https://github.com/ILikeFood971/homeassistant-app-dawarich/issues)
 
 [ha-app-badge]: https://img.shields.io/badge/Home%20Assistant-App-blue?logo=homeassistant
-[ha-app-link]: https://github.com/thomdev-j/homeassistant-app-dawarich
+[ha-app-link]: https://github.com/ILikeFood971/homeassistant-app-dawarich
