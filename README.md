@@ -52,7 +52,7 @@ Click **Start**. The first boot initializes the database and compiles frontend a
 
 ### 4. Open
 
-Click **Open Web UI** in the sidebar, or navigate to `http://<your-ha-ip>:3000`. Log in with the email and password you configured.
+Click **Open Web UI** in the sidebar. When Dawarich is opened through Home Assistant ingress, the app now signs you in from the Home Assistant user behind that ingress session, so you should not see the Dawarich login screen. Direct `http://<your-ha-ip>:3000` access still uses the local fallback login.
 
 ## Automatic Location Tracking
 
@@ -162,9 +162,9 @@ All data persists across app restarts and updates under `/data/`:
 ## Security
 
 - PostgreSQL and Redis bind to `localhost` only — not exposed outside the container
-- The admin user is the only account with access to the Settings → Users page
-- Home Assistant ingress provides authenticated access without exposing port 3000
-- If you don't use ingress, port 3000 is available on your local network
+- Home Assistant ingress is the primary auth path and maps each Home Assistant user to a local Dawarich user on first access
+- The admin bootstrap account remains available for direct LAN fallback only
+- If you don't use ingress, port 3000 still serves the local Dawarich login flow
 
 ## Hardware Requirements
 
@@ -194,6 +194,8 @@ Yes. Dawarich supports importing from Google Takeout, OwnTracks, GPX, and more v
 ### I get a blank page or "blocked host" error
 
 Add your Home Assistant's hostname or IP to `application_hosts`. For example: `homeassistant.local,localhost,192.168.1.100`. This is only needed when accessing port 3000 directly — ingress access (via the sidebar) works without it.
+
+If you are using the sidebar panel, the page should already be signed in from the Home Assistant ingress session.
 
 ### Can I change the admin password after first setup?
 

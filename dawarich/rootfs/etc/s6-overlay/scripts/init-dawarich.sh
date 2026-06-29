@@ -100,6 +100,13 @@ else
   openssl rand -hex 64 | tee /data/dawarich/secret_key_base > /var/run/s6/container_environment/SECRET_KEY_BASE
 fi
 
+# --- Ingress auth secret: only used to trust Home Assistant ingress headers ---
+if [ -f /data/dawarich/ingress_auth_secret ]; then
+  cat /data/dawarich/ingress_auth_secret > /var/run/s6/container_environment/INGRESS_AUTH_SECRET
+else
+  openssl rand -hex 32 | tee /data/dawarich/ingress_auth_secret > /var/run/s6/container_environment/INGRESS_AUTH_SECRET
+fi
+
 # --- PostgreSQL init on first run ---
 if [ ! -f /data/postgres/PG_VERSION ]; then
   bashio::log.info "Initializing PostgreSQL database..."
@@ -128,10 +135,12 @@ if [ -n "$INGRESS_ENTRY" ]; then
   # Remove trailing slash
   INGRESS_ENTRY="${INGRESS_ENTRY%/}"
   bashio::log.info "Ingress path: ${INGRESS_ENTRY}"
-  sed "s|INGRESS_PATH|${INGRESS_ENTRY}|g" \
+  sed -e "s|INGRESS_PATH|${INGRESS_ENTRY}|g" \
+      -e "s|INGRESS_AUTH_SECRET|${INGRESS_AUTH_SECRET}|g" \
     /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 else
   bashio::log.warning "Could not determine ingress path, using passthrough"
-  sed "s|INGRESS_PATH||g" \
+  sed -e "s|INGRESS_PATH||g" \
+      -e "s|INGRESS_AUTH_SECRET|${INGRESS_AUTH_SECRET}|g" \
     /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 fi

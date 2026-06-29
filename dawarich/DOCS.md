@@ -18,8 +18,8 @@ Everything is bundled into a single app container:
 2. Install the Dawarich app (the image is roughly 1 GB — initial download may take a while)
 3. Adjust configuration options (see below)
 4. Start the app — first boot initializes the database and compiles assets, subsequent starts are fast (under 15 seconds)
-5. Open the web UI via the sidebar panel or at `http://<your-ha-ip>:3000`
-6. Log in with the admin credentials from your app config
+5. Open the web UI via the sidebar panel. Ingress users are signed in from the Home Assistant session automatically.
+6. Use the configured admin credentials only if you access `http://<your-ha-ip>:3000` directly for fallback administration.
 
 ## Configuration
 
@@ -81,7 +81,8 @@ Reverse geocoding converts GPS coordinates into place names. Disabled by default
 
 - **`application_hosts`** must include the hostname/IP you use to access the UI, or Rails will reject requests (not needed for ingress)
 - **`secret_key_base`** is auto-generated on first start and stored in `/data/dawarich/secret_key_base` — sessions are invalidated if this file is deleted
-- **Admin user** is created on first start with the configured email/password. The password is only set on creation — changing it in the app config won't update an existing user. Use the Dawarich UI to change passwords.
+- **Home Assistant ingress** identifies the user from the trusted HA ingress headers and creates a matching Dawarich user on first access
+- **Admin user** is still created on first start with the configured email/password for direct access fallback. The password is only set on creation — changing it in the app config won't update an existing user. Use the Dawarich UI to change passwords.
 
 ## Data Persistence
 
@@ -108,7 +109,8 @@ To restore from backup, the app will automatically detect and restore the SQL du
 - PostgreSQL binds to `localhost` only — port 5432 is **not** exposed outside the container
 - Redis binds to `localhost` only — port 6379 is **not** exposed outside the container
 - Only port 3000 (web UI) is exposed
-- The app supports Home Assistant ingress for secure access without exposing port 3000
+- The app supports Home Assistant ingress for secure access through Home Assistant user identity
+- If you don't use ingress, port 3000 is available on your local network as a fallback login path
 
 ## Troubleshooting
 
@@ -119,7 +121,7 @@ To restore from backup, the app will automatically detect and restore the SQL du
 ### Can't access web UI
 - Verify your hostname/IP is in `application_hosts`
 - Check that port 3000 is not blocked by your network
-- Try using the ingress panel in the HA sidebar instead
+- Try using the ingress panel in the HA sidebar instead; that path uses Home Assistant identity
 
 ### HA Tracker not sending data
 - Check app logs for "HA Tracker:" messages

@@ -5,8 +5,11 @@
 # - remember_for:             how long the "Remember me" cookie lives
 # - extend_remember_period:   reset the timer on every visit (sliding window)
 # - timeout_in:               safety net if upstream ever enables :timeoutable
+#
+# Home Assistant ingress auth now signs users in from trusted ingress headers,
+# so this only affects any remaining direct-login fallback.
 Devise.setup do |config|
-  config.remember_for            = 1.year
+  config.remember_for            = 1.day
   config.extend_remember_period  = true
-  config.timeout_in              = 1.year
+  config.timeout_in              = 1.day
 end
