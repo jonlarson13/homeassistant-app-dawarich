@@ -1,0 +1,85 @@
+name: Update Dawarich
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-dawarich
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Read current Dawarich version
+        id: current
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          import re
+
+          text = Path("dawarich/build.yaml").read_text(encoding="utf-8")
+          match = re.search(r"freikin/dawarich:([^\s\"']+)", text)
+          if not match:
+              raise SystemExit("Could not find the current Dawarich version in dawarich/build.yaml")
+
+          print(f"version={match.group(1)}")
+          PY
+
+      - name: Fetch latest Dawarich release
+        id: latest
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          import urllib.request
+
+          request = urllib.request.Request(
+              "https://api.github.com/repos/Freika/dawarich/releases/latest",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "User-Agent": "homeassistant-app-dawarich-update-workflow",
+              },
+          )
+
+          with urllib.request.urlopen(request) as response:
+              payload = json.load(response)
+
+          tag = payload["tag_name"].strip()
+          if tag.startswith("v"):
+              tag = tag[1:]
+
+          print(f"version={tag}")
+          print(f"release_url={payload['html_url']}")
+          PY
+
+      - name: Report up-to-date status
+        if: steps.current.outputs.version == steps.latest.outputs.version
+        run: echo "Dawarich is already current at ${{ steps.current.outputs.version }}"
+
+      - name: Update versioned files
+        if: steps.current.outputs.version != steps.latest.outputs.version
+        run: python3 .github/scripts/update_dawarich_version.py "${{ steps.latest.outputs.version }}"
+
+      - name: Create or update pull request
+        if: steps.current.outputs.version != steps.latest.outputs.version
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/update-dawarich
+          commit-message: "chore: bump Dawarich to ${{ steps.latest.outputs.version }}"
+          title: "chore: bump Dawarich to ${{ steps.latest.outputs.version }}"
+          body: |
+            Automated update to Dawarich ${{ steps.latest.outputs.version }}.
+
+            Upstream release: ${{ steps.latest.outputs.release_url }}
+            This workflow reuses a fixed branch, so a later release refreshes the same pull request instead of creating a duplicate.
