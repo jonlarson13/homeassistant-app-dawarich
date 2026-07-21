@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1-1
+
+- Upgrade base image to Dawarich 1.10.1 — see upstream [1.10.1](https://github.com/Freika/dawarich/releases/tag/1.10.1) release notes
+
 ## 1.9.2-4
 
 - Fix `ha_tracked_entities:Name` creating a disconnected `name@dawarich.local` account instead of matching the Dawarich user a person is auto-logged into via HA ingress. The `:` suffix is now the person's Home Assistant user ID (found under Settings → People → Users → the user's URL), and the addon builds the same `ha-<user_id>@homeassistant.local` account the ingress auth path creates, so tracked location data lands on the account they're already signed into. See the updated "Device Tracking" section in DOCS.md for how to find a user's ID.
