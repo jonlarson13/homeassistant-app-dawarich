@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.2-1
+
+- Upgrade base image to Dawarich 1.10.2 — see upstream [1.10.2](https://github.com/Freika/dawarich/releases/tag/1.10.2) release notes
+
 ## 1.10.1-1
 
 - Upgrade base image to Dawarich 1.10.1 — see upstream [1.10.1](https://github.com/Freika/dawarich/releases/tag/1.10.1) release notes
