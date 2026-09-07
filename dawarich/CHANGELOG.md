@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.4-1
+
+- Upgrade base image to Dawarich 1.14.4 — see upstream [1.14.4](https://github.com/Freika/dawarich/releases/tag/1.14.4) release notes
+
 ## 1.14.1-1
 
 - Upgrade base image to Dawarich 1.14.1 — see upstream [1.14.1](https://github.com/Freika/dawarich/releases/tag/1.14.1) release notes
