@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.20.0-1
+
+- Upgrade base image to Dawarich 1.20.0 — see upstream [1.20.0](https://github.com/Freika/dawarich/releases/tag/1.20.0) release notes
+
 ## 1.15.3-1
 
 - Upgrade base image to Dawarich 1.15.3 — see upstream [1.15.3](https://github.com/Freika/dawarich/releases/tag/1.15.3) release notes
